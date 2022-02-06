@@ -1,0 +1,161 @@
+@import "../../global.scss";
+
+.about {
+  background-color: $mainColor;
+  padding: 20px;
+  @include mobile {
+    padding: 10px;
+  }
+
+  .aboutme {
+    @include mobile {
+      padding-right: 10px;
+      h2 {
+        text-align: center;
+      }
+      p {
+        font-size: 15px;
+      }
+    }
+  }
+
+  .topicStrength {
+    margin-right: 100px;
+    @include mobile {
+      margin-right: 50px;
+    }
+  }
+
+  .list {
+    display: flex;
+    flex-wrap: wrap;
+    @include mobile {
+      margin-top: 5px;
+    }
+  }
+  .listItem {
+    width: 500px;
+    margin: 30px;
+
+    i {
+      font-size: 40px;
+      color: $fontColor;
+      margin-bottom: 10px;
+
+      @include mobile {
+        font-size: 25px;
+      }
+    }
+
+    @include mobile {
+      margin: 5px;
+      width: 100px;
+    }
+  }
+
+  .socials {
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include mobile {
+      margin-top: 15px;
+      margin-right: 25px;
+    }
+
+    .icon {
+      margin: 20px;
+      height: 60px;
+      width: 60px;
+      background-color: #fff;
+      color: black;
+      border-radius: 50%;
+      box-shadow: 0 0px 8px rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      @include mobile {
+        margin: 5px;
+      }
+    }
+
+    .facebook:hover {
+      background-color: #1877f2;
+      color: #fff;
+      transition: all 0.2s ease-out;
+      box-shadow: 0 0px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .linkedin:hover {
+      background-color: #0077b5;
+      color: #fff;
+      transition: all 0.2s ease-out;
+      box-shadow: 0 0px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .github:hover {
+      background-color: #211f1f;
+      color: #fff;
+      transition: all 0.2s ease-out;
+      box-shadow: 0 0px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .twitter:hover {
+      background-color: #1da1f2;
+      color: #fff;
+      transition: all 0.2s ease-out;
+      box-shadow: 0 0px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .instagram:hover {
+      /*Stack Overflow OP*/
+      background-image: radial-gradient(
+          circle farthest-corner at 35% 90%,
+          #fec564,
+          transparent 50%
+        ),
+        radial-gradient(
+          circle farthest-corner at 0 140%,
+          #fec564,
+          transparent 50%
+        ),
+        radial-gradient(
+          ellipse farthest-corner at 0 -25%,
+          #5258cf,
+          transparent 50%
+        ),
+        radial-gradient(
+          ellipse farthest-corner at 20% -50%,
+          #5258cf,
+          transparent 50%
+        ),
+        radial-gradient(
+          ellipse farthest-corner at 100% 0,
+          #893dc2,
+          transparent 50%
+        ),
+        radial-gradient(
+          ellipse farthest-corner at 60% -20%,
+          #893dc2,
+          transparent 50%
+        ),
+        radial-gradient(
+          ellipse farthest-corner at 100% 100%,
+          #d9317a,
+          transparent
+        ),
+        linear-gradient(
+          #6559ca,
+          #bc318f 30%,
+          #e33f5f 50%,
+          #f77638 70%,
+          #fec66d 100%
+        );
+      color: #fff;
+      transition: all 0.2s ease-out;
+      box-shadow: 0 0px 20px rgba(0, 0, 0, 0.5);
+    }
+  }
+}

@@ -1,0 +1,119 @@
+@import "../../global.scss";
+
+.contact {
+  background-color: $mainColor;
+  display: flex;
+  flex-direction: column;
+
+  .main {
+    flex: 10;
+    display: flex;
+    @include mobile {
+      flex-direction: column;
+    }
+
+    .left {
+      flex: 1;
+      overflow: hidden;
+      @include mobile {
+        flex-direction: column;
+        flex: 3;
+      }
+      img {
+        height: 100%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+        color: $fontColor;
+        @include mobile {
+          height: 70%;
+          margin-left: 25%;
+        }
+      }
+    }
+
+    .right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      @include mobile {
+        flex-direction: column;
+        flex: 9;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+
+        input {
+          width: 500px;
+          height: 50px;
+          font-size: 14px;
+          margin: 15px;
+          padding: 5px;
+          background-color: $mainColor;
+
+          @include mobile {
+            width: 300px;
+          }
+        }
+
+        textarea {
+          width: 500px;
+          height: 200px;
+          font-size: 14px;
+          padding: 5px;
+          background-color: $mainColor;
+          @include mobile {
+            width: 300px;
+          }
+        }
+
+        button {
+          width: 100px;
+          height: 40px;
+          margin: 15px;
+          color: $fontColor;
+          background-color: $mainColor;
+          border-radius: 10px;
+          font-weight: 500;
+          cursor: pointer;
+
+          &:focus {
+            outline: none;
+          }
+        }
+
+        span {
+          color: green;
+        }
+      }
+    }
+  }
+
+  .footer {
+    flex: 2;
+    padding: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+
+    background-color: $fontColor;
+    display: flex;
+    flex-direction: column;
+    color: $mainColor;
+    .call {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    p {
+      margin-top: 20px;
+      text-align: center;
+    }
+  }
+}
