@@ -1,7 +1,13 @@
 import { Badge } from "@/components/ui/badge";
 import { MapPin } from "lucide-react";
+import AboutListening from "@/components/home/AboutListening";
+import type { ListeningData } from "@/types/LastFm";
 
-export default function AboutMe() {
+interface AboutMeProps {
+  listeningData?: ListeningData | null;
+}
+
+export default function AboutMe({ listeningData }: AboutMeProps) {
   return (
     <section className="section-shell py-16 md:py-20">
       <div className="container mx-auto px-4">
@@ -27,6 +33,13 @@ export default function AboutMe() {
             <MapPin className="size-3.5" aria-hidden="true" />
             Delhi, India
           </Badge>
+
+          <AboutListening
+            status={listeningData?.status}
+            tracks={listeningData?.tracks}
+            topArtists={listeningData?.topArtists}
+            profileUrl={listeningData?.profileUrl}
+          />
         </div>
       </div>
     </section>

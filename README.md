@@ -31,6 +31,13 @@ Create a local env file:
 cp .env.example .env.local
 ```
 
+Required variables for the Last.fm listening section:
+
+- `LASTFM_API_KEY`: Last.fm API key from your Last.fm API account.
+- `LASTFM_USERNAME`: Last.fm username to read recent tracks and top artists.
+
+These keys are server-side only and should not be prefixed with `NEXT_PUBLIC_`.
+
 ## Local Development
 
 ```bash
