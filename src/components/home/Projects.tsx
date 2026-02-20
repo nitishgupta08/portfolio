@@ -30,10 +30,6 @@ export default function Projects({ projects }: ProjectsProps) {
           <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-5xl">
             Look what I built
           </h2>
-          <p className="mt-3 max-w-2xl text-muted-foreground">
-            Projects that combine strong engineering foundations with practical
-            user impact.
-          </p>
 
           <div className="mt-10">
             {displayProjects.length > 0 ? (
