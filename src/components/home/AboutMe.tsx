@@ -1,13 +1,9 @@
 import { Badge } from "@/components/ui/badge";
-import { MapPin } from "lucide-react";
-import AboutListening from "@/components/home/AboutListening";
-import type { ListeningData } from "@/types/LastFm";
+import { Button } from "@/components/ui/button";
+import { Disc3, MapPin, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
-interface AboutMeProps {
-  listeningData?: ListeningData | null;
-}
-
-export default function AboutMe({ listeningData }: AboutMeProps) {
+export default function AboutMe() {
   return (
     <section className="section-shell py-16 md:py-20">
       <div className="container mx-auto px-4">
@@ -34,12 +30,19 @@ export default function AboutMe({ listeningData }: AboutMeProps) {
             Delhi, India
           </Badge>
 
-          <AboutListening
-            status={listeningData?.status}
-            tracks={listeningData?.tracks}
-            topArtists={listeningData?.topArtists}
-            profileUrl={listeningData?.profileUrl}
-          />
+          <div className="mt-6">
+            <Button asChild>
+              <Link
+                href="/listening"
+                aria-label="Open listening dashboard"
+                className="inline-flex items-center gap-2"
+              >
+                <Disc3 className="size-4" aria-hidden="true" />
+                View listening activity
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     </section>

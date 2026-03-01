@@ -2,12 +2,20 @@ import { cache } from "react";
 import type { BlogPost } from "@/types/BlogPost";
 import type { PaginatedBlogResult } from "@/types/PaginatedBlogResult";
 import type { Experience } from "@/types/Experience";
-import type { ListeningData } from "@/types/LastFm";
+import type {
+  ListeningData,
+  ListeningDataExpanded,
+  ListeningShowcaseData,
+} from "@/types/LastFm";
 import type { Project } from "@/types/Project";
 import { BlogService } from "@/lib/firebase/services/blogService";
 import { ExperienceService } from "@/lib/firebase/services/experienceService";
 import { ProjectService } from "@/lib/firebase/services/projectService";
-import { getListeningData as getListeningDataFromLastFm } from "@/lib/server/lastfm";
+import {
+  getListeningData as getListeningDataFromLastFm,
+  getListeningDataExpanded as getListeningDataExpandedFromLastFm,
+  getListeningShowcase as getListeningShowcaseFromLastFm,
+} from "@/lib/server/lastfm";
 
 interface BlogPageParams {
   page: number;
@@ -27,6 +35,18 @@ export const getExperiences = cache(async (): Promise<Experience[]> => {
 export const getListeningData = cache(async (): Promise<ListeningData | null> => {
   return getListeningDataFromLastFm();
 });
+
+export const getListeningDataExpanded = cache(
+  async (): Promise<ListeningDataExpanded | null> => {
+    return getListeningDataExpandedFromLastFm();
+  },
+);
+
+export const getListeningShowcase = cache(
+  async (): Promise<ListeningShowcaseData | null> => {
+    return getListeningShowcaseFromLastFm();
+  },
+);
 
 export async function getBlogPage({
   page,

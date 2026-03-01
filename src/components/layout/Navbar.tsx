@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { BookOpen, Disc3, FolderCode } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { ThemeToggle } from "../ui/theme-toggle";
@@ -25,27 +26,41 @@ export default function Navbar() {
         </Link>
 
         <nav className="flex items-center gap-2">
-          {/*<Link
-            href="/projects"
-            className={cn(
-              buttonVariants({ variant: "ghost", size: "sm" }),
-              "font-medium",
-            )}
-            aria-label="Projects"
-          >
-            Projects
-          </Link>
-
           <Link
             href="/blog"
             className={cn(
               buttonVariants({ variant: "ghost", size: "sm" }),
-              "font-medium",
+              "size-9 px-0",
             )}
             aria-label="Blog"
           >
-            Blog
-          </Link>*/}
+            <BookOpen className="size-4" aria-hidden="true" />
+            <span className="sr-only">Blog</span>
+          </Link>
+
+          <Link
+            href="/projects"
+            className={cn(
+              buttonVariants({ variant: "ghost", size: "sm" }),
+              "size-9 px-0",
+            )}
+            aria-label="Projects"
+          >
+            <FolderCode className="size-4" aria-hidden="true" />
+            <span className="sr-only">Projects</span>
+          </Link>
+
+          <Link
+            href="/listening"
+            className={cn(
+              buttonVariants({ variant: "ghost", size: "sm" }),
+              "size-9 px-0",
+            )}
+            aria-label="Listening"
+          >
+            <Disc3 className="size-4" aria-hidden="true" />
+            <span className="sr-only">Listening</span>
+          </Link>
 
           <ThemeToggle />
         </nav>
