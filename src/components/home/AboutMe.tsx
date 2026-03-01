@@ -1,5 +1,7 @@
 import { Badge } from "@/components/ui/badge";
-import { MapPin } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Disc3, MapPin, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export default function AboutMe() {
   return (
@@ -22,6 +24,20 @@ export default function AboutMe() {
             <MapPin className="size-3.5" aria-hidden="true" />
             Delhi, India
           </Badge>
+
+          <div className="mt-6">
+            <Button asChild>
+              <Link
+                href="/listening"
+                aria-label="Open listening dashboard"
+                className="inline-flex items-center gap-2"
+              >
+                <Disc3 className="size-4" aria-hidden="true" />
+                View listening activity
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     </section>

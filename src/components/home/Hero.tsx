@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, FileText } from "lucide-react";
+import { ArrowRight, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 
@@ -14,16 +14,11 @@ export default function Hero() {
           </h1>
 
           <ButtonGroup className="mt-10">
-            <Button asChild size="lg" className="min-w-40">
-              <Link href="/projects">
-                View Projects
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="min-w-40">
+            <Button asChild className="min-w-40">
               <Link href="/blog">
+                <BookOpen className="ml-2 h-4 w-4" />
                 Read Blog
-                <FileText className="ml-2 h-4 w-4" />
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </ButtonGroup>

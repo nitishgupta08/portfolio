@@ -5,6 +5,7 @@ Personal portfolio application built with Next.js App Router, TypeScript, Fireba
 ## Features
 
 - Homepage with hero, about, experience, projects, and contact sections.
+- Dedicated `/listening` page with live Last.fm listening stats and charts.
 - Blog listing page and individual blog post pages.
 - Dedicated projects page with featured and archived project data.
 - Firestore-backed content with local fallback mode via environment flag.
@@ -30,6 +31,13 @@ Create a local env file:
 ```bash
 cp .env.example .env.local
 ```
+
+Required variables for the Last.fm listening section:
+
+- `LASTFM_API_KEY`: Last.fm API key from your Last.fm API account.
+- `LASTFM_USERNAME`: Last.fm username to read recent tracks and top artists.
+
+These keys are server-side only and should not be prefixed with `NEXT_PUBLIC_`.
 
 ## Local Development
 

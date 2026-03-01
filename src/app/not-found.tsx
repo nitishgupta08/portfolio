@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { FaHome, FaSearch } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
 
 export default function NotFound() {
   return (
@@ -43,40 +43,7 @@ export default function NotFound() {
                 Go Home
               </Link>
             </Button>
-
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="min-w-[140px]"
-            >
-              <Link href="/blog">
-                <FaSearch className="mr-2 h-4 w-4" />
-                Browse Blog
-              </Link>
-            </Button>
           </div>
-
-          {/* Quick Links */}
-          <div className="pt-8">
-            <p className="text-sm text-muted-foreground mb-4">
-              Maybe you were looking for:
-            </p>
-            <div className="flex flex-wrap justify-center gap-2">
-              <Button variant="ghost" size="sm" asChild>
-                <Link href="/projects">Projects</Link>
-              </Button>
-              <Button variant="ghost" size="sm" asChild>
-                <Link href="/blog">Blog</Link>
-              </Button>
-              <Button variant="ghost" size="sm" asChild>
-                <Link href="/gallery">Gallery</Link>
-              </Button>
-            </div>
-          </div>
-
-          {/* Fun Element */}
-          <div className="text-4xl opacity-50">🧑‍💻</div>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, FolderCode } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Empty } from "@/components/ui/empty";
@@ -56,8 +56,9 @@ export default function Projects({ projects }: ProjectsProps) {
                 </Carousel>
 
                 <div className="mt-10 text-left">
-                  <Button variant="outline" size="lg" asChild>
+                  <Button asChild>
                     <Link href="/projects">
+                      <FolderCode className="mr-2 h-4 w-4" aria-hidden="true" />
                       View All Projects
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
