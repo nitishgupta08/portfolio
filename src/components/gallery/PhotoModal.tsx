@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FaHeart, FaRegHeart, FaTimes, FaChevronLeft, FaChevronRight, FaMapMarkerAlt, FaClock } from "react-icons/fa";
+import { X, ChevronLeft, ChevronRight, MapPin, Clock, Heart } from "lucide-react";
 import Image from "next/image";
 import { Photo } from "./Gallery";
 
@@ -64,20 +64,20 @@ export default function PhotoModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-6xl max-h-[95vh] p-0 bg-black border-0">
+      <DialogContent className="max-h-[95dvh] max-w-6xl overflow-y-auto border-0 bg-black p-0">
         <DialogTitle className="sr-only">
           {photo?.alt || "Photo viewer"}
         </DialogTitle>
-        <div className="relative w-full h-full">
+        <div className="relative w-full">
           {/* Close Button */}
           <Button
             variant="ghost"
             size="icon"
             className="absolute top-4 right-4 z-50 text-white hover:bg-white/20 rounded-full"
             onClick={onClose}
+            aria-label="Close photo viewer"
           >
-            <FaTimes className="h-5 w-5" />
-          </Button>
+            <X className="h-5 w-5" />          </Button>
 
           {/* Navigation Buttons */}
           {totalPhotos > 1 && (
@@ -85,19 +85,21 @@ export default function PhotoModal({
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-50 text-white hover:bg-white/20 rounded-full"
+                className="absolute left-2 top-1/2 -translate-y-1/2 z-50 text-white hover:bg-white/20 rounded-full sm:left-4"
                 onClick={() => onNavigate('prev')}
+                aria-label="Previous photo"
               >
-                <FaChevronLeft className="h-6 w-6" />
+                <ChevronLeft className="h-6 w-6" />
               </Button>
 
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-50 text-white hover:bg-white/20 rounded-full"
+                className="absolute right-2 top-1/2 -translate-y-1/2 z-50 text-white hover:bg-white/20 rounded-full sm:right-4"
                 onClick={() => onNavigate('next')}
+                aria-label="Next photo"
               >
-                <FaChevronRight className="h-6 w-6" />
+                <ChevronRight className="h-6 w-6" />
               </Button>
             </>
           )}
@@ -118,7 +120,7 @@ export default function PhotoModal({
             </div>
 
             {/* Metadata Section */}
-            <div className="bg-black/90 p-6 space-y-4">
+            <div className="bg-black/90 p-4 sm:p-6 space-y-4">
               {/* Photo Description */}
               {photo.description && (
                 <p className="text-white text-lg leading-relaxed text-center max-w-3xl mx-auto">
@@ -131,13 +133,13 @@ export default function PhotoModal({
                 <div className="flex flex-wrap items-center gap-6 text-white/80">
                   {photo.location && (
                     <div className="flex items-center gap-2">
-                      <FaMapMarkerAlt className="h-4 w-4 text-blue-400" />
+                      <MapPin className="h-4 w-4 text-blue-400" />
                       <span>{photo.location}</span>
                     </div>
                   )}
                   
                   <div className="flex items-center gap-2">
-                    <FaClock className="h-4 w-4 text-green-400" />
+                    <Clock className="h-4 w-4 text-green-400" aria-hidden="true" />
                     <span>{formatDate(photo.datetime)}</span>
                   </div>
 
@@ -152,8 +154,10 @@ export default function PhotoModal({
                   size="sm"
                   className={`text-white hover:bg-white/10 ${isLiked ? 'text-red-400' : ''}`}
                   onClick={() => onLike(photo.id)}
+                  aria-pressed={isLiked}
+                  aria-label={isLiked ? `Unlike photo ${photo.alt}` : `Like photo ${photo.alt}`}
                 >
-                  {isLiked ? <FaHeart className="mr-2 h-4 w-4" /> : <FaRegHeart className="mr-2 h-4 w-4" />}
+                  {isLiked ? <Heart className="mr-2 h-4 w-4 fill-current" /> : <Heart className="mr-2 h-4 w-4" />}
                   {photo.likeCount}
                 </Button>
               </div>

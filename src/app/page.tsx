@@ -2,22 +2,19 @@ import Hero from "@/components/home/Hero";
 import AboutMe from "@/components/home/AboutMe";
 import Experience from "@/components/home/Experience";
 import Projects from "@/components/home/Projects";
-import Contact from "@/components/home/Contact";
-import { getExperiences, getProjects } from "@/lib/server/portfolioData";
+import NotesPreview from "@/components/home/NotesPreview";
+import GalleryPreview from "@/components/home/GalleryPreview";
+import { isFeatureEnabled } from "@/lib/features";
 
-export default async function Home() {
-  const [projects, experiences] = await Promise.all([
-    getProjects(),
-    getExperiences(),
-  ]);
-
+export default function Home() {
   return (
     <div className="relative overflow-hidden">
       <Hero />
       <AboutMe />
-      <Experience experiences={experiences} />
-      <Projects projects={projects} />
-      <Contact />
+      {isFeatureEnabled("experiences") && <Experience />}
+      {isFeatureEnabled("projects") && <Projects />}
+      {isFeatureEnabled("notes") && <NotesPreview />}
+      {isFeatureEnabled("gallery") && <GalleryPreview />}
     </div>
   );
 }

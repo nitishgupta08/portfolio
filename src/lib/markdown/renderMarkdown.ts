@@ -52,7 +52,7 @@ export function getClientMarkdownRenderOptions(): {
         {
           behavior: "append",
           properties: {
-            className: ["blog-md-heading-link"],
+            className: ["notes-md-heading-link"],
             ariaLabel: "Link to section",
           },
         },

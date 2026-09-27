@@ -1,14 +1,65 @@
+// Firestore security rules for the portfolio site.
+//
+// Deploy with:  firebase deploy --only firestore:rules
+// (requires firebase-tools + `firebase init firestore` alias to this file)
+//
+// Principles:
+// - Public content collections are world-readable (site is a public portfolio).
+// - Clients may ONLY increment numeric counters (notes `views`,
+//   gallery `likeCount`) via `increment()` transforms — no arbitrary writes.
+// - Everything else is denied by default.
+
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Allow read access to all documents
-    match /{document=**} {
-      allow read: if true;
+
+    function onlyCounterIncrement(allowedFields) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(allowedFields);
     }
-    
-    // Only allow admin write access (you can implement auth later)
+
+    // Public readable content — counters increment-only.
+    match /notes_posts/{postId} {
+      allow read: if true;
+      allow update: if onlyCounterIncrement(['views', 'updatedAt'])
+        && request.resource.data.views is int
+        && request.resource.data.views >= 0
+        && request.resource.data.views == resource.data.views + 1
+        && request.resource.data.updatedAt is string
+        && request.resource.data.updatedAt.size() >= 10
+        && request.resource.data.updatedAt.size() <= 64;
+      allow create, delete: if false;
+    }
+
+    match /gallery_photos/{photoId} {
+      allow read: if true;
+      allow update: if onlyCounterIncrement(['likeCount'])
+        && request.resource.data.likeCount is int
+        && request.resource.data.likeCount >= 0
+        && request.resource.data.likeCount <= 1000000
+        && (request.resource.data.likeCount == resource.data.likeCount + 1
+          || request.resource.data.likeCount == resource.data.likeCount - 1);
+      allow create, delete: if false;
+    }
+
+    // Public readable collections (managed from the Firebase console).
+    match /projects/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /experiences/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /quotes/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
     match /{document=**} {
-      allow write: if false; // Restrict writes for now
+      allow read, write: if false;
     }
   }
 }

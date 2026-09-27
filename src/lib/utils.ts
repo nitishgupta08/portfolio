@@ -5,8 +5,14 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-// Generate a simple browser fingerprint for like persistence
+// Generate a simple browser fingerprint for like persistence.
+// Memoized per session — canvas + btoa work runs once, not per mount/like.
+let cachedFingerprint: string | null = null;
+
 export const generateFingerprint = (): string => {
+  if (cachedFingerprint) {
+    return cachedFingerprint;
+  }
   if (typeof window === 'undefined') return 'server';
   
   try {
@@ -27,9 +33,13 @@ export const generateFingerprint = (): string => {
       (canvas.toDataURL() || '')
     ).slice(0, 16);
     
+    cachedFingerprint = fingerprint;
     return fingerprint;
   } catch (error) {
     console.error('Error generating fingerprint:', error);
-    return Math.random().toString(36).substring(7);
+    if (!cachedFingerprint) {
+      cachedFingerprint = Math.random().toString(36).substring(7);
+    }
+    return cachedFingerprint;
   }
 };

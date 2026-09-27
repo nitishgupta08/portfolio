@@ -274,14 +274,14 @@ const fetchLastFm = async <T extends LastFmErrorResponse>(
   }
 };
 
+const isNowPlayingRecentTrack = (track: LastFmRecentTrack | undefined): boolean =>
+  track?.["@attr"]?.nowplaying === "true" ||
+  track?.["@attr"]?.nowplaying === "1";
+
 const buildStatusFromRecent = (tracks: LastFmRecentTrack[]): ListeningStatus | null => {
   if (tracks.length === 0) return null;
 
-  const nowPlayingTrack = tracks.find(
-    (track) =>
-      track?.["@attr"]?.nowplaying === "true" ||
-      track?.["@attr"]?.nowplaying === "1",
-  );
+  const nowPlayingTrack = tracks.find((track) => isNowPlayingRecentTrack(track));
   const latestTrack = nowPlayingTrack ?? tracks[0];
 
   const title = latestTrack?.name?.trim();
@@ -305,8 +305,11 @@ const buildStatusFromRecent = (tracks: LastFmRecentTrack[]): ListeningStatus | n
   };
 };
 
-const buildInRotationFromRecent = (tracks: LastFmRecentTrack[]): InRotationTrack[] => {
-  const seen = new Set<string>();
+const buildInRotationFromRecent = (
+  tracks: LastFmRecentTrack[],
+  limit = IN_ROTATION_LIMIT,
+): InRotationTrack[] => {
+  const indexByTrack = new Map<string, number>();
   const out: InRotationTrack[] = [];
 
   for (const track of tracks) {
@@ -315,21 +318,29 @@ const buildInRotationFromRecent = (tracks: LastFmRecentTrack[]): InRotationTrack
     if (!title || !artist) continue;
 
     const key = `${title.toLowerCase()}::${artist.toLowerCase()}`;
-    if (seen.has(key)) continue;
-    seen.add(key);
-
-    out.push({
+    const isNowPlaying = isNowPlayingRecentTrack(track);
+    const entry: InRotationTrack = {
       title,
       artist,
-      playedAgo: track.date?.uts ? toPlayedAgo(track.date.uts) : undefined,
+      isNowPlaying,
+      playedAgo: !isNowPlaying && track.date?.uts ? toPlayedAgo(track.date.uts) : undefined,
       imageUrl: getImageUrl(track.image),
       url: normalizeWebUrl(track.url) ?? buildTrackUrl(artist, title),
-    });
+    };
 
-    if (out.length >= IN_ROTATION_LIMIT) break;
+    const existingIndex = indexByTrack.get(key);
+    if (typeof existingIndex === "number") {
+      if (isNowPlaying && !out[existingIndex].isNowPlaying) {
+        out[existingIndex] = entry;
+      }
+      continue;
+    }
+
+    indexByTrack.set(key, out.length);
+    out.push(entry);
   }
 
-  return out;
+  return out.slice(0, limit);
 };
 
 const mapTopTracks = (tracks: LastFmTopTrack[]): TopTrack[] => {
@@ -660,8 +671,8 @@ export async function getListeningShowcase(): Promise<ListeningShowcaseData | nu
     topArtists: mapTopArtists(topArtistsByPeriod[index]?.artists ?? []),
     topAlbums: mapTopAlbums(topAlbumsByPeriod[index]?.albums ?? []),
   }));
-  const recentTracks = buildInRotationFromRecent(recentTracksRaw ?? []).slice(
-    0,
+  const recentTracks = buildInRotationFromRecent(
+    recentTracksRaw ?? [],
     SHOWCASE_RECENT_LIMIT,
   );
 

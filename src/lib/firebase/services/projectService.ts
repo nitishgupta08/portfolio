@@ -30,8 +30,8 @@ export class ProjectService {
 
       return projects;
     } catch (error) {
-      console.error("Error fetching projects:", error);
-      throw new Error("Failed to fetch projects");
+      console.error("Error fetching projects, falling back to static data:", error);
+      return fallbackProjectsData;
     }
   }
 }

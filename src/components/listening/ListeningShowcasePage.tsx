@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Clock3, Disc3, ExternalLink, Music2, User } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { Clock3, Disc3, ExternalLink, Music2, Radio, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import type {
   InRotationTrack,
@@ -12,7 +13,7 @@ import type {
   TopTrack,
 } from "@/types/LastFm";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface ListeningShowcasePageProps {
@@ -27,6 +28,7 @@ const PERIODS: ListeningShowcasePeriod[] = [
 ];
 const LASTFM_DEFAULT_COVER_URL =
   "https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png";
+const AUTO_REFRESH_INTERVAL_MS = 5 * 60_000;
 
 const periodLabel = (period: ListeningShowcasePeriod): string => {
   const labels: Record<ListeningShowcasePeriod, string> = {
@@ -108,7 +110,7 @@ function CardExternalLink({ href, label }: { href?: string; label: string }) {
       rel="noopener noreferrer"
       aria-label={label}
       title={label}
-      className="absolute bottom-2 right-2 rounded-full border border-border/70 bg-background p-1 text-muted-foreground transition-colors hover:text-foreground"
+      className="absolute bottom-2 right-2 rounded-full border border-border/70 bg-background p-2 text-muted-foreground transition-colors hover:text-foreground"
     >
       <ExternalLink className="size-3" aria-hidden="true" />
       <span className="sr-only">{label}</span>
@@ -124,20 +126,23 @@ function PeriodPicker({
   onSelect: (period: ListeningShowcasePeriod) => void;
 }) {
   return (
-    <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
-      {PERIODS.map((period) => (
-        <Button
-          key={period}
-          type="button"
-          size="sm"
-          variant={period === selected ? "default" : "outline"}
-          onClick={() => onSelect(period)}
-          className="shrink-0"
-        >
-          {periodLabel(period)}
-        </Button>
-      ))}
-    </div>
+    <Tabs
+      value={selected}
+      onValueChange={(value) => onSelect(value as ListeningShowcasePeriod)}
+      className="mt-2"
+    >
+      <TabsList className="h-auto flex-wrap justify-start gap-1 bg-transparent p-0">
+        {PERIODS.map((period) => (
+          <TabsTrigger
+            key={period}
+            value={period}
+            className="shrink-0 border border-border/70 data-[state=active]:border-primary/50 data-[state=active]:bg-secondary"
+          >
+            {periodLabel(period)}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+    </Tabs>
   );
 }
 
@@ -269,12 +274,24 @@ function AlbumsRail({ albums }: { albums: TopAlbum[] }) {
 export default function ListeningShowcasePage({
   data,
 }: ListeningShowcasePageProps) {
+  const router = useRouter();
   const [tracksPeriod, setTracksPeriod] =
     useState<ListeningShowcasePeriod>("overall");
   const [artistsPeriod, setArtistsPeriod] =
     useState<ListeningShowcasePeriod>("overall");
   const [albumsPeriod, setAlbumsPeriod] =
     useState<ListeningShowcasePeriod>("overall");
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      if (document.visibilityState !== "visible") return;
+      router.refresh();
+    }, AUTO_REFRESH_INTERVAL_MS);
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, [router]);
 
   const tracksData = useMemo(
     () =>
@@ -460,10 +477,13 @@ function RecentRail({ tracks }: { tracks: InRotationTrack[] }) {
               </p>
             </div>
           </div>
-          {track.playedAgo ? (
-            <p className="mt-3 text-xs text-muted-foreground">
-              {track.playedAgo}
-            </p>
+          {track.isNowPlaying ? (
+            <Badge variant="secondary" className="mt-3 text-[10px]">
+              <Radio className="size-3.5" aria-hidden="true" />
+              Now Playing
+            </Badge>
+          ) : track.playedAgo ? (
+            <p className="mt-3 text-xs text-muted-foreground">{track.playedAgo}</p>
           ) : null}
           <CardExternalLink
             href={track.url}

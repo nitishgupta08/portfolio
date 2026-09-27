@@ -8,6 +8,7 @@ export interface ListeningStatus {
 export interface InRotationTrack {
   title: string;
   artist: string;
+  isNowPlaying?: boolean;
   playedAgo?: string;
   imageUrl?: string;
   url?: string;

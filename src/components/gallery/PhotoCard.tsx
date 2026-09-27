@@ -3,8 +3,9 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { Heart, MapPin } from "lucide-react";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 import { Photo } from "./Gallery";
 
 interface PhotoCardProps {
@@ -27,9 +28,18 @@ export default function PhotoCard({
 
   return (
     <Card className="group cursor-pointer overflow-hidden border-0 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
-      <div 
+      <div
         className="relative"
         onClick={() => onPhotoClick(photo)}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            onPhotoClick(photo);
+          }
+        }}
+        role="button"
+        tabIndex={0}
+        aria-label={`Open photo: ${photo.alt}`}
       >
         {/* Photo Image */}
         <div className="relative overflow-hidden">
@@ -38,6 +48,7 @@ export default function PhotoCard({
             alt={photo.alt}
             width={photo.width}
             height={photo.height}
+            loading="lazy"
             className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
@@ -46,7 +57,14 @@ export default function PhotoCard({
           <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           
           {/* Like button overlay */}
-          <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div
+            className={cn(
+              "absolute top-3 right-3 transition-opacity duration-300",
+              isLiked
+                ? "opacity-100"
+                : "opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-within:opacity-100",
+            )}
+          >
             <Button
               size="sm"
               variant="secondary"
@@ -56,11 +74,13 @@ export default function PhotoCard({
                   : "bg-white/90 hover:bg-white text-gray-700"
               }`}
               onClick={handleLikeClick}
+              aria-pressed={isLiked}
+              aria-label={isLiked ? `Unlike photo ${photo.alt}` : `Like photo ${photo.alt}`}
             >
               {isLiked ? (
-                <FaHeart className="h-4 w-4" />
+                <Heart className="h-4 w-4 fill-current" />
               ) : (
-                <FaRegHeart className="h-4 w-4" />
+                <Heart className="h-4 w-4" />
               )}
             </Button>
           </div>
@@ -79,15 +99,16 @@ export default function PhotoCard({
           <div className="flex items-center justify-between text-xs text-muted-foreground">
             <div className="flex items-center space-x-3">
               {photo.location && (
-                <span className="truncate max-w-[120px]">
-                  📍 {photo.location}
+                <span className="inline-flex max-w-[160px] items-center gap-1 truncate">
+                  <MapPin className="h-3 w-3 shrink-0" aria-hidden="true" />
+                  <span className="truncate">{photo.location}</span>
                 </span>
               )}
             </div>
             
             <div className="flex items-center space-x-2">
               <span className="flex items-center space-x-1">
-                <FaHeart className={`h-3 w-3 ${isLiked ? 'text-red-500' : 'text-gray-400'}`} />
+                <Heart className={`h-3 w-3 ${isLiked ? 'text-red-500 fill-current' : 'text-gray-400'}`} />
                 <span>{photo.likeCount}</span>
               </span>
             </div>

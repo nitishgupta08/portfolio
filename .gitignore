@@ -42,3 +42,12 @@ next-env.d.ts
 
 .continue
 scripts/
+
+.codebase-memory/
+
+firebase-debug.log
+firestore-debug.log
+
+.agents/
+skills-lock.json
+opencode.json

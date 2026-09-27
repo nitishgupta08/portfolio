@@ -1,25 +1,26 @@
 import { cache } from "react";
-import type { BlogPost } from "@/types/BlogPost";
-import type { PaginatedBlogResult } from "@/types/PaginatedBlogResult";
+import type { NotePost } from "@/types/NotePost";
+import type { PaginatedNotesResult } from "@/types/PaginatedNotesResult";
 import type { Experience } from "@/types/Experience";
 import type {
-  ListeningData,
-  ListeningDataExpanded,
   ListeningShowcaseData,
 } from "@/types/LastFm";
 import type { Project } from "@/types/Project";
-import { BlogService } from "@/lib/firebase/services/blogService";
+import type { Quote } from "@/types/Quote";
+import type { Photo } from "@/types/Gallery";
+import { NotesService, type NotePostFilters } from "@/lib/firebase/services/notesService";
 import { ExperienceService } from "@/lib/firebase/services/experienceService";
 import { ProjectService } from "@/lib/firebase/services/projectService";
+import { QuoteService } from "@/lib/firebase/services/quoteService";
+import { GalleryService } from "@/lib/firebase/services/galleryService";
 import {
-  getListeningData as getListeningDataFromLastFm,
-  getListeningDataExpanded as getListeningDataExpandedFromLastFm,
   getListeningShowcase as getListeningShowcaseFromLastFm,
 } from "@/lib/server/lastfm";
 
-interface BlogPageParams {
+interface NotesPageParams {
   page: number;
   pageSize: number;
+  filters?: NotePostFilters;
 }
 
 export const getProjects = cache(async (): Promise<Project[]> => {
@@ -32,29 +33,26 @@ export const getExperiences = cache(async (): Promise<Experience[]> => {
   return experiences.filter((experience) => experience.isVisible);
 });
 
-export const getListeningData = cache(async (): Promise<ListeningData | null> => {
-  return getListeningDataFromLastFm();
-});
-
-export const getListeningDataExpanded = cache(
-  async (): Promise<ListeningDataExpanded | null> => {
-    return getListeningDataExpandedFromLastFm();
-  },
-);
-
-export const getListeningShowcase = cache(
-  async (): Promise<ListeningShowcaseData | null> => {
-    return getListeningShowcaseFromLastFm();
-  },
-);
-
-export async function getBlogPage({
-  page,
-  pageSize,
-}: BlogPageParams): Promise<PaginatedBlogResult> {
-  return BlogService.getPaginatedBlogPosts(page, pageSize);
+export async function getListeningShowcase(): Promise<ListeningShowcaseData | null> {
+  return getListeningShowcaseFromLastFm();
 }
 
-export const getBlogPost = cache(async (slug: string): Promise<BlogPost | null> => {
-  return BlogService.getBlogPostBySlug(slug);
+export async function getNotesPage({
+  page,
+  pageSize,
+  filters,
+}: NotesPageParams): Promise<PaginatedNotesResult> {
+  return NotesService.getPaginatedNotePosts(page, pageSize, filters);
+}
+
+export const getNotePost = cache(async (slug: string): Promise<NotePost | null> => {
+  return NotesService.getNotePostBySlug(slug);
 });
+
+export async function getRandomQuote(): Promise<Quote> {
+  return QuoteService.getRandomQuote();
+}
+
+export async function getGalleryPhotos(): Promise<Photo[]> {
+  return GalleryService.getVisiblePhotos();
+}

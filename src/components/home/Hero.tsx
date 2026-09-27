@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen } from "lucide-react";
+import { ArrowDown, ArrowRight, FolderCode } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
+import { isFeatureEnabled } from "@/lib/features";
 
 export default function Hero() {
   return (
@@ -13,13 +14,21 @@ export default function Hero() {
             Nitish Kumar Gupta
           </h1>
 
-          <ButtonGroup className="mt-10">
-            <Button asChild className="min-w-40">
-              <Link href="/blog">
-                <BookOpen className="ml-2 h-4 w-4" />
-                Read Blog
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
+          <ButtonGroup className="mt-10 flex-col items-stretch sm:flex-row sm:items-center">
+            {isFeatureEnabled("projects") ? (
+              <Button asChild className="w-full sm:w-auto sm:min-w-40">
+                <Link href="/projects">
+                  <FolderCode className="mr-2 h-4 w-4" />
+                  Selected work
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            ) : null}
+            <Button variant="outline" asChild className="w-full sm:w-auto">
+              <a href="#socials">
+                Find me online
+                <ArrowDown className="ml-2 h-4 w-4" />
+              </a>
             </Button>
           </ButtonGroup>
         </div>

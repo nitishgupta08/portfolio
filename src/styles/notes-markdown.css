@@ -1,0 +1,214 @@
+.notes-md {
+  color: var(--foreground);
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.notes-md > * + * {
+  margin-top: 1rem;
+}
+
+.notes-md h1,
+.notes-md h2,
+.notes-md h3,
+.notes-md h4,
+.notes-md h5,
+.notes-md h6 {
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.notes-md h1 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+}
+
+.notes-md h2 {
+  font-size: clamp(1.5rem, 3.3vw, 2rem);
+}
+
+.notes-md h3 {
+  font-size: clamp(1.25rem, 2.8vw, 1.5rem);
+}
+
+.notes-md p,
+.notes-md li {
+  color: color-mix(in oklch, var(--foreground) 90%, white 10%);
+}
+
+.dark .notes-md p,
+.dark .notes-md li {
+  color: color-mix(in oklch, var(--foreground) 88%, black 12%);
+}
+
+.notes-md ul,
+.notes-md ol {
+  padding-left: 1.5rem;
+}
+
+.notes-md ul {
+  list-style: disc;
+}
+
+.notes-md ol {
+  list-style: decimal;
+}
+
+.notes-md a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+
+.notes-md a:hover {
+  opacity: 0.85;
+}
+
+.notes-md blockquote {
+  margin: 1.25rem 0;
+  border-left: 3px solid var(--border);
+  padding-left: 1rem;
+  color: var(--muted-foreground);
+}
+
+.notes-md hr {
+  margin: 1.25rem 0;
+  border-color: var(--border);
+}
+
+.notes-md-inline-code {
+  border: 1px solid var(--border);
+  background: var(--muted);
+  border-radius: 0.4rem;
+  padding: 0.08rem 0.35rem;
+  font-size: 0.88em;
+}
+
+.notes-md-pre-wrap {
+  margin: 1rem 0;
+  max-width: 100%;
+  overflow-x: auto;
+  border-radius: 0.75rem;
+}
+
+.notes-md pre {
+  margin: 0;
+  padding: 1rem;
+  overflow-x: auto;
+  border-radius: 0.75rem;
+}
+
+.notes-md pre code {
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.notes-md-table-wrap {
+  margin: 1rem 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.notes-md table {
+  width: 100%;
+  min-width: 36rem;
+  border-collapse: collapse;
+}
+
+.notes-md th,
+.notes-md td {
+  border: 1px solid var(--border);
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.notes-md th {
+  background: var(--muted);
+  font-weight: 600;
+}
+
+.notes-md-image-wrap {
+  display: block;
+  margin: 1.1rem 0;
+}
+
+.notes-md-image {
+  width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+}
+
+.notes-md .notes-md-heading-link {
+  margin-left: 0.45rem;
+  text-decoration: none;
+  opacity: 0.45;
+}
+
+.notes-md .notes-md-heading-link:hover {
+  opacity: 1;
+}
+
+@media (max-width: 640px) {
+  .notes-md {
+    font-size: 0.98rem;
+  }
+
+  .notes-md pre code {
+    font-size: 0.8rem;
+  }
+
+  .notes-md table {
+    min-width: 32rem;
+  }
+}
+
+@media print {
+  .notes-md {
+    font-size: 12pt;
+    line-height: 1.6;
+    color: #000;
+  }
+
+  .notes-md pre {
+    background: #f5f5f5 !important;
+    border: 1px solid #ddd;
+  }
+
+  .notes-md pre code {
+    font-size: 10pt;
+  }
+
+  .notes-md table {
+    min-width: 0;
+    font-size: 10pt;
+  }
+
+  .notes-md img {
+    max-width: 100%;
+    page-break-inside: avoid;
+  }
+
+  .notes-md a {
+    color: #000;
+    text-decoration: underline;
+  }
+
+  .notes-md h1,
+  .notes-md h2,
+  .notes-md h3,
+  .notes-md h4,
+  .notes-md h5,
+  .notes-md h6 {
+    page-break-after: avoid;
+    color: #000;
+  }
+
+  .notes-md blockquote {
+    border-left: 3px solid #999;
+    color: #555;
+  }
+}

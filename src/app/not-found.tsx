@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { FaHome } from "react-icons/fa";
+import { Home } from "lucide-react";
 
 export default function NotFound() {
   return (
@@ -39,7 +39,7 @@ export default function NotFound() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="min-w-[140px]">
               <Link href="/">
-                <FaHome className="mr-2 h-4 w-4" />
+                <Home className="mr-2 h-4 w-4" />
                 Go Home
               </Link>
             </Button>

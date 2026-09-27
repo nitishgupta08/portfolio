@@ -33,8 +33,8 @@ export class ExperienceService {
 
       return experiences;
     } catch (error) {
-      console.error("Error fetching experiences:", error);
-      throw new Error("Failed to fetch experiences");
+      console.error("Error fetching experiences, falling back to static data:", error);
+      return fallbackExperienceData;
     }
   }
 }

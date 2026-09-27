@@ -1,8 +1,9 @@
 export const SITE_CONFIG = {
   version: process.env.APP_VERSION,
-  name: "Nitish Kumar Gupta -- Portfolio",
+  name: "Nitish Kumar Gupta | Portfolio",
   description: "SWE",
   author: "Nitish Kumar Gupta",
+  contactEmail: "nitishkg.88@gmail.com",
   github: {
     username: "nitishgupta08",
     repo: "portfolio-v3",
