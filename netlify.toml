@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[secrets_scanning]
+  omit_keys = ["NEXT_PUBLIC_SITE_URL"]
