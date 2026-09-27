@@ -1,5 +1,3 @@
-import { Rss } from "lucide-react";
-
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 
 export function NotesHeaderShell() {
@@ -13,12 +11,6 @@ export function NotesHeaderShell() {
           <p className="max-w-2xl text-lg text-muted-foreground">
             Notes on software, ideas, and maybe rant.
           </p>
-          <div className="flex items-center gap-3 text-sm text-muted-foreground">
-            <a href="/feed.xml" className="inline-flex items-center gap-1.5 transition-colors hover:text-foreground">
-              <Rss className="size-3.5" aria-hidden="true" />
-              RSS
-            </a>
-          </div>
         </div>
       </div>
     </>

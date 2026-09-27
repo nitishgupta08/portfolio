@@ -30,6 +30,8 @@ import {
   FONT_THEME_KEYS,
   COLOR_STORAGE_KEY,
   FONT_STORAGE_KEY,
+  DEFAULT_THEME_KEY,
+  DEFAULT_FONT_KEY,
   type CuratedThemeKey,
   type FontThemeKey,
 } from "@/lib/theme/curatedThemes";
@@ -95,13 +97,22 @@ export function ThemePicker() {
 
   useEffect(() => {
     setMounted(true);
+    // Never leave color/font null: an absent or foreign data-*-theme
+    // attribute (e.g. blocked seed script) falls back to defaults instead
+    // of rendering the "…" unknown state.
+    const colorAttr = document.documentElement.getAttribute("data-color-theme");
     setColor(
       readStored<CuratedThemeKey>(COLOR_STORAGE_KEY, CURATED_THEME_KEYS) ??
-        (document.documentElement.getAttribute("data-color-theme") as CuratedThemeKey),
+        (CURATED_THEME_KEYS.includes(colorAttr as CuratedThemeKey)
+          ? (colorAttr as CuratedThemeKey)
+          : DEFAULT_THEME_KEY),
     );
+    const fontAttr = document.documentElement.getAttribute("data-font-theme");
     setFont(
       readStored<FontThemeKey>(FONT_STORAGE_KEY, FONT_THEME_KEYS) ??
-        (document.documentElement.getAttribute("data-font-theme") as FontThemeKey),
+        (FONT_THEME_KEYS.includes(fontAttr as FontThemeKey)
+          ? (fontAttr as FontThemeKey)
+          : DEFAULT_FONT_KEY),
     );
   }, []);
 

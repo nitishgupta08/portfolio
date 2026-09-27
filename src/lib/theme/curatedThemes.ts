@@ -35,6 +35,8 @@ export const FONT_THEME_KEYS = ["font-a", "font-b", "font-c", "font-d", "font-e"
 
 export type FontThemeKey = (typeof FONT_THEME_KEYS)[number];
 
+export const DEFAULT_FONT_KEY: FontThemeKey = "font-a";
+
 export interface FontMeta {
   key: FontThemeKey;
   label: string;
