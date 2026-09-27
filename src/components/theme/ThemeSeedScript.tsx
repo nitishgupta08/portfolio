@@ -25,12 +25,18 @@ const themeSeedScript = `(function(){
       ? savedColor
       : themeKeys[Math.floor(Math.random() * themeKeys.length)];
     root.setAttribute("data-color-theme", colorKey);
+    try {
+      if (themeKeys.indexOf(savedColor) === -1) window.localStorage.setItem(${JSON.stringify(COLOR_STORAGE_KEY)}, colorKey);
+    } catch (_) {}
 
     var fontKeys = ${JSON.stringify(FONT_THEME_KEYS)};
     var fontKey = fontKeys.indexOf(savedFont) !== -1
       ? savedFont
       : fontKeys[Math.floor(Math.random() * fontKeys.length)];
     root.setAttribute("data-font-theme", fontKey);
+    try {
+      if (fontKeys.indexOf(savedFont) === -1) window.localStorage.setItem(${JSON.stringify(FONT_STORAGE_KEY)}, fontKey);
+    } catch (_) {}
 
     var storedMode = null;
     try {
